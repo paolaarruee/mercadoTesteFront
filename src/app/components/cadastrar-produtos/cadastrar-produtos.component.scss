@@ -1,0 +1,27 @@
+.container {
+  padding-top: 30px;
+}
+
+.form-container {
+  max-width: 400px;
+  margin: auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card {
+  padding: 20px;
+}
+
+mat-card-title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+}

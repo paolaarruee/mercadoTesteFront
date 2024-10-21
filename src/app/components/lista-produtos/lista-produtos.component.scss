@@ -1,0 +1,24 @@
+.container {
+  padding: 20px 60px 0 60px;
+
+  .header {
+    &__title {
+      font-weight: 700;
+      font-size: 20px;
+    }
+  }
+
+  .body {
+    overflow: auto;
+    &__table {
+      width: 60%;
+      border: solid 1px rgb(224 224 224);
+
+      &__th {
+        color: #fff;
+        background-color: #6158db;
+        padding: 30px;
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+<div class="container">
+  <mat-card class="form-container">
+    <mat-card-title>Cadastro de Produto</mat-card-title>
+    <form [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="full-width">
+        <mat-label>Nome</mat-label>
+        <input
+          matInput
+          formControlName="nome"
+          placeholder="Digite o nome do produto"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Tipo</mat-label>
+        <input
+          matInput
+          formControlName="tipo"
+          placeholder="Digite o tipo do produto"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Valor</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="valor"
+          placeholder="Digite o valor do produto"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Estoque</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="estoque"
+          placeholder="Digite a quantidade em estoque"
+          required
+        />
+      </mat-form-field>
+
+     <div class="button">
+      <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!produtoForm.valid"
+    >
+      Enviar
+    </button>
+     </div>
+    </form>
+  </mat-card>
+</div>
