@@ -6,6 +6,15 @@
       font-weight: 700;
       font-size: 20px;
     }
+
+    &__filtro {
+      display: flex;
+    justify-content: end;
+
+      &__tipo {
+        margin-left: 30px;
+      }
+    }
   }
 
   .body {

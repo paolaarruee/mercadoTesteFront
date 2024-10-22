@@ -2,23 +2,27 @@
   <section class="header">
     <p class="header__title">Lista de Produtos</p>
 
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="Buscar por nome"
-        [(ngModel)]="nomeFiltro"
-        (input)="applyFilter()"
-      />
-    </mat-form-field>
+    <div class="header__filtro">
+      <div class="header__filtro">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Buscar por nome"
+            [(ngModel)]="nomeFiltro"
+            (input)="applyFilter()"
+          />
+        </mat-form-field>
 
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="Buscar por tipo"
-        [(ngModel)]="tipoFiltro"
-        (input)="applyFilter()"
-      />
-    </mat-form-field>
+        <mat-form-field class="header__filtro__tipo">
+          <input
+            matInput
+            placeholder="Buscar por tipo"
+            [(ngModel)]="tipoFiltro"
+            (input)="applyFilter()"
+          />
+        </mat-form-field>
+      </div>
+    </div>
   </section>
 
   <section class="body">
