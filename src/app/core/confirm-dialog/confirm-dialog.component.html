@@ -1,0 +1,15 @@
+<mat-dialog-content>
+  <p>{{ data.message }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onConfirm()"
+    class="button-excluir"
+  >
+    Excluir
+  </button>
+</mat-dialog-actions>

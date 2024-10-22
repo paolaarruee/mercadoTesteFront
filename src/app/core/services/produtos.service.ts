@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
@@ -12,8 +12,23 @@ export class ProdutosService {
 
   constructor(private http: HttpClient) {}
 
-  getProdutos(): Observable<ProdutosResponse> {
-    return this.http.get<ProdutosResponse>(`${this.baseUrl}produtos/listar`);
+  // getProdutos(): Observable<ProdutosResponse> {
+  //   return this.http.get<ProdutosResponse>(`${this.baseUrl}produtos/listar`);
+  // }
+
+  getProdutos(
+    page: number = 0,
+    size: number = 15,
+    sort: string = 'tipo,asc'
+  ): Observable<ProdutosResponse> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sort', sort);
+
+    return this.http.get<ProdutosResponse>(`${this.baseUrl}produtos/listar`, {
+      params,
+    });
   }
 
   createProduto(produtoData: Produtos): Observable<Produtos> {
@@ -23,13 +38,8 @@ export class ProdutosService {
     );
   }
 
-  updateProduto(
-    dados: Produtos
-  ): Observable<Produtos> {
-    return this.http.put<Produtos>(
-      `${this.baseUrl}produtos/atualizar`,
-      dados
-    );
+  updateProduto(dados: Produtos): Observable<Produtos> {
+    return this.http.put<Produtos>(`${this.baseUrl}produtos/atualizar`, dados);
   }
 
   deleteProduto(id: number): Observable<void> {
@@ -40,4 +50,7 @@ export class ProdutosService {
 export interface ProdutosResponse {
   content: Produtos[];
   totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
 }
