@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/core/services/login.service';
+import { ToastService } from 'src/app/core/services/toast.service';
 import { User } from 'src/app/shared/interfaces/user';
 
 @Component({
@@ -17,7 +23,8 @@ export class LoginComponent {
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   onSubmit() {
@@ -29,7 +36,12 @@ export class LoginComponent {
 
       this.loginService.login(data).subscribe({
         next: () => this.router.navigate(['lista']),
-        error: (err) => console.error('Login error', err),
+        error: () =>
+          console.error(
+            this.toastService.showMessage(
+              'Login error: Login ou Senha incorreta tente novamente!'
+            )
+          ),
       });
     }
   }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProdutosService } from 'src/app/core/services/produtos.service';
+import { ToastService } from 'src/app/core/services/toast.service';
 import { Produtos } from 'src/app/shared/interfaces/produtos';
 
 @Component({
@@ -13,7 +14,8 @@ export class CadastrarProdutosComponent {
 
   constructor(
     private fb: FormBuilder,
-    private produtoService: ProdutosService
+    private produtoService: ProdutosService,
+    private toastService: ToastService
   ) {
     this.produtoForm = this.fb.group({
       nome: ['', Validators.required],
@@ -30,14 +32,20 @@ export class CadastrarProdutosComponent {
       const produtoData: Produtos = this.produtoForm.value;
       this.produtoService.createProduto(produtoData).subscribe(
         (response) => {
-          console.log('Produto criado com sucesso:', response);
+          console.log(
+            this.toastService.showMessage('Produto criado com sucesso:'),
+            response
+          );
         },
         (error) => {
-          console.error('Erro ao criar produto:', error);
+          console.error(
+            this.toastService.showMessage('Erro ao criar produto:'),
+            error
+          );
         }
       );
     } else {
-      console.error('Formulário inválido');
+      console.error(this.toastService.showMessage('Formulário inválido'));
     }
   }
 }

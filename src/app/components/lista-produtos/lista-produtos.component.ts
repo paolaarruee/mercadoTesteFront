@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmDialogComponent } from 'src/app/core/confirm-dialog/confirm-dialog.component';
 import { LoginService } from 'src/app/core/services/login.service';
 import { ProdutosService } from 'src/app/core/services/produtos.service';
+import { ToastService } from 'src/app/core/services/toast.service';
 import { Produtos } from 'src/app/shared/interfaces/produtos';
 
 @Component({
@@ -22,20 +26,27 @@ export class ListaProdutosComponent {
     'estoque',
     'actions',
   ];
+  totalItems: number = 0;
 
-  constructor(private produtoService: ProdutosService, private loginService: LoginService) {}
+  constructor(
+    private produtoService: ProdutosService,
+    private loginService: LoginService,
+    private toastService: ToastService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getProdutos();
   }
 
-  getProdutos(): void {
-    this.produtoService.getProdutos().subscribe(
+  getProdutos(page: number = 0): void {
+    this.produtoService.getProdutos(page).subscribe(
       (data) => {
         this.dataSource.data = data.content;
+        this.totalItems = data.totalElements;
       },
       (error) => {
-        console.error('Erro ao buscar produtos', error);
+        this.toastService.showMessage('Erro ao buscar produtos', error);
       }
     );
   }
@@ -55,7 +66,7 @@ export class ListaProdutosComponent {
       produto.valor == null ||
       produto.estoque == null
     ) {
-      alert(
+      this.toastService.showMessage(
         'Por favor, preencha todos os campos obrigatórios: Tipo, Nome, Valor e Estoque.'
       );
       return;
@@ -63,28 +74,43 @@ export class ListaProdutosComponent {
 
     this.produtoService.updateProduto(produto).subscribe(
       () => {
+        this.toastService.showMessage('Produto atualizado com sucesso!');
         this.getProdutos();
       },
       (error) => {
-        console.error('Erro ao atualizar produto', error);
-        alert('Erro ao atualizar o produto. Tente novamente.');
+        this.toastService.showMessage('Erro ao atualizar produto', error);
       }
     );
   }
+
   cancelEdit() {
     this.getProdutos();
     this.editingProductId = null;
   }
 
   deleteProduct(produto: Produtos) {
-    if (confirm(`Tem certeza que deseja excluir o produto ${produto.nome}?`)) {
-      this.produtoService.deleteProduto(produto.id).subscribe(() => {
-        this.getProdutos();
-      });
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        message: `Tem certeza que deseja excluir o produto ${produto.nome}?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.produtoService.deleteProduto(produto.id).subscribe(() => {
+          this.getProdutos();
+          this.toastService.showMessage('Produto excluído com sucesso!');
+        });
+      }
+    });
   }
 
   public get isAuthenticated(): boolean {
     return this.loginService.isAuthenticated;
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.getProdutos(event.pageIndex);
   }
 }
