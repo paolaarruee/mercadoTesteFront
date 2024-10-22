@@ -13,33 +13,23 @@
       <nav class="menu__nav__navigation" #menuNav>
         <ul class="menu__nav__navigation__list">
           <li class="menu__nav__navigation__list__item">
-            <a class="menu__nav__navigation__list__item__name" routerLink="/lista"
-            *ngIf="isAuthenticated"
-              >Lista Produtos</a
-            >
+            <a class="menu__nav__navigation__list__item__name" routerLink="/lista" *ngIf="isAuthenticated">
+              Lista Produtos
+            </a>
           </li>
           <li class="menu__nav__navigation__list__item">
-            <a
-              routerLink="/cadastrar"
-              class="menu__nav__navigation__list__item__name"
-              *ngIf="isAuthenticated"
-              >Cadastrar Produtos</a
-            >
+            <a routerLink="/cadastrar" class="menu__nav__navigation__list__item__name" *ngIf="isAuthenticated">
+              Cadastrar Produtos
+            </a>
           </li>
           <li class="menu__nav__navigation__list__item">
-            <a
-              class="menu__nav__navigation__list__item__name"
-              routerLink="/"
-              *ngIf="!isAuthenticated"
-              >Entrar</a
-            >
-            <a
-              (click)="logout()"
-              *ngIf="isAuthenticated"
-              routerLink="/"
-              class="menu__nav__navigation__list__item__name"
-              >Logout</a
-            >
+
+            <a class="menu__nav__navigation__list__item__name" routerLink="/" *ngIf="!isAuthenticated && !isHomePage">
+              Entrar
+            </a>
+            <a (click)="logout()" *ngIf="isAuthenticated" routerLink="/" class="menu__nav__navigation__list__item__name">
+              Logout
+            </a>
           </li>
         </ul>
       </nav>
