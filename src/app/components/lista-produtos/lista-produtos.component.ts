@@ -28,6 +28,9 @@ export class ListaProdutosComponent {
   ];
   totalItems: number = 0;
 
+  nomeFiltro: string = '';
+  tipoFiltro: string = '';
+
   constructor(
     private produtoService: ProdutosService,
     private loginService: LoginService,
@@ -113,4 +116,20 @@ export class ListaProdutosComponent {
   onPageChange(event: PageEvent): void {
     this.getProdutos(event.pageIndex);
   }
+
+  applyFilter(): void {
+    this.dataSource.filterPredicate = (data: Produtos, filter: string) => {
+      const searchTerm = filter.trim().toLowerCase();
+      const filterNome = this.nomeFiltro.trim().toLowerCase();
+      const filterTipo = this.tipoFiltro.trim().toLowerCase();
+
+      return (
+        (!filterNome || data.nome.toLowerCase().includes(filterNome)) &&
+        (!filterTipo || data.tipo.toLowerCase().includes(filterTipo))
+      );
+    };
+
+    this.dataSource.filter = `${this.nomeFiltro}${this.tipoFiltro}`;
+  }
+
 }
